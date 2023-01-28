@@ -1,6 +1,8 @@
 package br.com.lucaromagnoli.tictoe.controller;
 
-import br.com.lucaromagnoli.tictoe.command.Commands;
+import br.com.lucaromagnoli.tictoe.command.external.Commands;
+import br.com.lucaromagnoli.tictoe.command.internal.RemoveSocketConnectionInternalCommand;
+import br.com.lucaromagnoli.tictoe.command.internal.SaveSocketConnectionInternalCommand;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -19,19 +21,19 @@ public class GameWebSocketHandler implements WebSocketHandler {
     @Override
     public Mono<Void> handle(WebSocketSession session) {
         return session.receive()
-                .doOnSubscribe(subscription -> log.info("A player has connected {}", session.getId()))
-                .doOnComplete(() -> log.info("A player has disconnected {}", session.getId()))
+                .doOnSubscribe(subscription -> SaveSocketConnectionInternalCommand.execute(session))
+                .doOnComplete(() -> RemoveSocketConnectionInternalCommand.execute(session))
                 .map(WebSocketMessage::getPayloadAsText)
-                .doOnNext(this::externalCommand)
+                .doOnNext(commandAsJson -> this.externalCommand(commandAsJson, session))
                 .then()
                 ;
     }
 
-    private void externalCommand(String commandAsJson) {
+    private void externalCommand(String commandAsJson, WebSocketSession session) {
         final var commandDTO = JsonSupport.toObject(commandAsJson, CommandDTO.class);
         Optional.ofNullable(commandDTO)
                 .map(CommandDTO::getCommand)
                 .map(Commands::getCommand)
-                .ifPresent(abstractCommand -> abstractCommand.execute(commandDTO.getPayload()));
+                .ifPresent(abstractCommand -> abstractCommand.execute(commandDTO.getPayload(), session));
     }
 }

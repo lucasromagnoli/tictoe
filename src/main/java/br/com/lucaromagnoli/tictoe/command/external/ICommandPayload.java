@@ -1,4 +1,4 @@
-package br.com.lucaromagnoli.tictoe.command;
+package br.com.lucaromagnoli.tictoe.command.external;
 
 import java.io.Serializable;
 

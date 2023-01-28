@@ -1,8 +1,8 @@
 package br.com.lucaromagnoli.tictoe.controller;
 
-import br.com.lucaromagnoli.tictoe.command.AbstractCommand;
-import br.com.lucaromagnoli.tictoe.command.Commands;
-import br.com.lucaromagnoli.tictoe.command.ICommandPayload;
+import br.com.lucaromagnoli.tictoe.command.external.AbstractCommand;
+import br.com.lucaromagnoli.tictoe.command.external.Commands;
+import br.com.lucaromagnoli.tictoe.command.external.ICommandPayload;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.TreeNode;
 import com.fasterxml.jackson.databind.DeserializationContext;
