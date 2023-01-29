@@ -1,15 +1,17 @@
 package br.com.lucaromagnoli.tictoe.sign_in;
 
 import br.com.lucaromagnoli.tictoe.command.external.AbstractCommand;
+import br.com.lucaromagnoli.tictoe.command.external.Commands;
+import br.com.lucaromagnoli.tictoe.controller.JsonSupport;
 import br.com.lucaromagnoli.tictoe.player.Player;
+import br.com.lucaromagnoli.tictoe.response.ResponseStatus;
+import br.com.lucaromagnoli.tictoe.response.ResponseTemplate;
 import br.com.lucaromagnoli.tictoe.session.UglySessionPlayer;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.socket.WebSocketSession;
 import reactor.core.publisher.Mono;
 
 @Slf4j
-@Component
 public class SignInCommand extends AbstractCommand<SignInCommandPayload> {
 
     @Override
@@ -25,7 +27,18 @@ public class SignInCommand extends AbstractCommand<SignInCommandPayload> {
                 .username(payload.getUsername())
                 .session(session)
                 .build());
-        session.send(Mono.just("Login Sucess").map(session::textMessage)).subscribe();
+        session.send(this.getResponse()
+                .map(session::textMessage))
+                .subscribe();
+    }
+
+    private Mono<String> getResponse() {
+        return Mono.just(ResponseTemplate.builder()
+                .status(ResponseStatus.SUCCESS)
+                .command(Commands.SIGN_IN)
+                .build()
+                .toDTO())
+                .map(JsonSupport::toJson);
     }
 
     @Override

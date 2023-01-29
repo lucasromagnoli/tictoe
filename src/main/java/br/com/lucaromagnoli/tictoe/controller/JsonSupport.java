@@ -4,6 +4,7 @@ import br.com.lucaromagnoli.tictoe.exception.ConvertJsonToObjectException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.SneakyThrows;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -11,6 +12,10 @@ import java.io.Serializable;
 public class JsonSupport {
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
+    @SneakyThrows
+    public static String toJson(Object target) {
+        return OBJECT_MAPPER.writeValueAsString(target);
+    }
 
     public static <T extends Serializable> T toObject(String json, Class<T> clazz) {
         try {

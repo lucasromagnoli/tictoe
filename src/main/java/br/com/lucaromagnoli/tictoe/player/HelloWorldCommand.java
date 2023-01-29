@@ -4,6 +4,8 @@ import br.com.lucaromagnoli.tictoe.command.external.AbstractCommand;
 import org.springframework.web.reactive.socket.WebSocketSession;
 import reactor.core.publisher.Mono;
 
+import java.util.Optional;
+
 public class HelloWorldCommand extends AbstractCommand<HelloWorldPayload> implements IPlayerCommand {
     @Override
     protected void validate(HelloWorldPayload payload, WebSocketSession session) {
@@ -12,7 +14,9 @@ public class HelloWorldCommand extends AbstractCommand<HelloWorldPayload> implem
 
     @Override
     protected void doExecute(HelloWorldPayload payload, WebSocketSession session) {
-        String username = this.getPlayer(session).getUsername();
+        final var username = Optional.ofNullable(this.getPlayer(session))
+                .map(Player::getUsername)
+                .orElse(null);
         session.send(Mono.just("Hello World " + username).map(session::textMessage)).subscribe();
     }
 
