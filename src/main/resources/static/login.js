@@ -5,7 +5,6 @@ Login = (function () {
         this.tictoe = tictoe
         registryDomElements.call(this)
         tictoe.connection.handlers['SIGN_IN_SUCCESS'] = onSignInSuccess.bind(this)
-
     }
 
     function registryDomElements() {
@@ -24,7 +23,11 @@ Login = (function () {
         })
     }
 
-    function onSignInSuccess() {
+    function onSignInSuccess(payload) {
+        this.tictoe.player = {
+            ...this.tictoe.player,
+            username: payload.username
+        }
         this.tictoe.hide(this.loginContainer)
     }
 

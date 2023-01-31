@@ -8,7 +8,10 @@ Application.TicToe = (function () {
         this.connection = new Connection(this)
         this.login = new Login(this)
         this.hide = (elementDOM) => elementDOM.addClass('d-none')
+        this.value = (elementDOM, message) => elementDOM.html(message)
+        this.player = {}
     }
+
 
     return TicToe
 })()

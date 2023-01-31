@@ -27,15 +27,17 @@ public class SignInCommand extends AbstractCommand<SignInCommandPayload> {
                 .username(payload.getUsername())
                 .session(session)
                 .build());
-        session.send(this.getResponse()
+
+        session.send(this.getResponse(payload)
                 .map(session::textMessage))
                 .subscribe();
     }
 
-    private Mono<String> getResponse() {
+    private Mono<String> getResponse(SignInCommandPayload signInCommandPayload) {
         return Mono.just(ResponseTemplate.builder()
                 .status(ResponseStatus.SUCCESS)
                 .command(Commands.SIGN_IN)
+                .payload(signInCommandPayload)
                 .build()
                 .toDTO())
                 .map(JsonSupport::toJson);
