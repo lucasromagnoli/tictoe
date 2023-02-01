@@ -8,6 +8,8 @@ Login = (function () {
     }
 
     function registryDomElements() {
+        this.footerPlayerDiv = $('#footer-player-name-div')
+        this.footerPlayerName = $('#footer-player-name')
         this.loginContainer = $('#login-container')
         this.loginInputUsername = $('#inputPlayerName')
         this.loginSubmit = $('#login-submit')
@@ -28,6 +30,8 @@ Login = (function () {
             ...this.tictoe.player,
             username: payload.username
         }
+        this.tictoe.value(this.footerPlayerName, payload.username)
+        this.tictoe.show(this.footerPlayerDiv)
         this.tictoe.hide(this.loginContainer)
     }
 

@@ -32,6 +32,7 @@ Connection = (function () {
     function onCloseConnection(error) {
         console.log("clientWebSocket.onclose", this.clientWebSocket, error);
         this.tictoe.value(this.webSocketStatus, 'Disconnected')
+        this.tictoe.hide(this.tictoe.login.footerPlayerDiv)
     }
 
     function send(payload) {
