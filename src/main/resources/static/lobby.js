@@ -8,6 +8,7 @@ Lobby = (function () {
     }
 
     function registryDomElements() {
+        this.lobbyMainDiv = $('#lobbyMainDiv')
         this.lobbyMessages = $('#lobbyMessages')
         this.inputLobbyMessage = $('#inputLobbyMessage')
         this.lobbyMessageSubmit = $('#submitLobbyMessage')

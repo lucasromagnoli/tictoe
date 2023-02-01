@@ -24,7 +24,6 @@ public class SendLobbyMessageCommand extends AbstractCommand<SendLobbyMessagePay
     protected void doExecute(SendLobbyMessagePayload payload, WebSocketSession session) {
         UglyLobbySession.get()
                 .map(Player::getSession)
-                .filter(Predicate.not(session::equals))
                 .forEach(sessionOnLobby -> {
                     sessionOnLobby.send(Mono.just(ResponseTemplate.builder()
                                     .command(Commands.SEND_LOBBY_MESSAGE)

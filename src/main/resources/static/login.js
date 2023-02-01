@@ -33,6 +33,7 @@ Login = (function () {
         this.tictoe.value(this.footerPlayerName, payload.username)
         this.tictoe.show(this.footerPlayerDiv)
         this.tictoe.hide(this.loginContainer)
+        this.tictoe.show(this.tictoe.lobby.lobbyMainDiv)
     }
 
     return Login
