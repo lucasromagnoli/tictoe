@@ -1,5 +1,6 @@
 package br.com.lucaromagnoli.tictoe.command.external;
 
+import br.com.lucaromagnoli.tictoe.lobby.SendLobbyMessageCommand;
 import br.com.lucaromagnoli.tictoe.player.HelloWorldCommand;
 import br.com.lucaromagnoli.tictoe.sign_in.SignInCommand;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -15,6 +16,7 @@ import java.util.Optional;
 public enum Commands {
     NOT_MAPPED(null),
     SIGN_IN(new SignInCommand()),
+    SEND_LOBBY_MESSAGE(new SendLobbyMessageCommand()),
     HELLO_WORLD(new HelloWorldCommand())
     ;
 

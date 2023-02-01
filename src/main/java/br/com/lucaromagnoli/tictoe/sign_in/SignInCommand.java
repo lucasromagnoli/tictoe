@@ -6,6 +6,7 @@ import br.com.lucaromagnoli.tictoe.controller.JsonSupport;
 import br.com.lucaromagnoli.tictoe.player.Player;
 import br.com.lucaromagnoli.tictoe.response.ResponseStatus;
 import br.com.lucaromagnoli.tictoe.response.ResponseTemplate;
+import br.com.lucaromagnoli.tictoe.session.UglyLobbySession;
 import br.com.lucaromagnoli.tictoe.session.UglySessionPlayer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.reactive.socket.WebSocketSession;
@@ -23,11 +24,12 @@ public class SignInCommand extends AbstractCommand<SignInCommandPayload> {
     @Override
     protected void doExecute(final SignInCommandPayload payload, WebSocketSession session) {
         log.info("Executando o payload");
-        UglySessionPlayer.add(Player.builder()
+        final var player = Player.builder()
                 .username(payload.getUsername())
                 .session(session)
-                .build());
-
+                .build();
+        UglySessionPlayer.add(player);
+        UglyLobbySession.add(player);
         session.send(this.getResponse(payload)
                 .map(session::textMessage))
                 .subscribe();

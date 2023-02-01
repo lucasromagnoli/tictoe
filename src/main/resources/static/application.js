@@ -1,3 +1,4 @@
+import Lobby from './lobby.js'
 import Login from './login.js'
 import Connection from "./connection.js";
 
@@ -7,6 +8,7 @@ Application.TicToe = (function () {
     function TicToe() {
         this.connection = new Connection(this)
         this.login = new Login(this)
+        this.lobby = new Lobby(this)
         this.hide = (elementDOM) => elementDOM.addClass('d-none')
         this.show = (elementDOM) => elementDOM.removeClass('d-none')
         this.value = (elementDOM, message) => elementDOM.html(message)
